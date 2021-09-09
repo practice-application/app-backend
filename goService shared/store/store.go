@@ -18,7 +18,7 @@ type Store struct {
 }
 
 func (s *Store) Connect() {
-	clientOptions := options.Client().ApplyURI("mongodb+srv://zweston:yHoPhQbQBtzjaXGF@customerinfo.pipug.mongodb.net/")
+	clientOptions := options.Client().ApplyURI("mongodb+srv://databaseUser:b6kz42hs@data.zugzp.mongodb.net/")
 	//ctx := context.Background()
 	client, err := mongo.Connect(context.Background(), clientOptions)
 	if err != nil {
