@@ -1,4 +1,4 @@
-module github.com/el-zacharoo/go-101
+module github.com/el-zacharoo/goService-shared
 
 go 1.15
 

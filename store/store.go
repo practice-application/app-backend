@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/el-zacharoo/go-101/data"
+	"github.com/el-zacharoo/goService-shared/data"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"

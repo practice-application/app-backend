@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/el-zacharoo/go-101/data"
-	"github.com/el-zacharoo/go-101/store"
+	"github.com/el-zacharoo/goService-shared/data"
+	"github.com/el-zacharoo/goService-shared/store"
 	"github.com/go-chi/chi"
 	"github.com/google/uuid"
 )

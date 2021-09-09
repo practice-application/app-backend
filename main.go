@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/el-zacharoo/go-101/handler"
-	"github.com/el-zacharoo/go-101/store"
+	"github.com/el-zacharoo/goService-shared/handler"
+	"github.com/el-zacharoo/goService-shared/store"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
