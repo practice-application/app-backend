@@ -1,0 +1,36 @@
+[
+    {
+        "OrganisationName": "Propellerhead Ltd",
+        "OrgType": "Company",
+        "OrgSize": 50,
+        "people": [
+            {
+                "firstName": "Zachary",
+                "lastName": "Weston",
+                "age": 23,
+                "email": "zachary.weston@propellerhead.co.nz",
+                "phone": "02108120278"
+            }
+        ]
+    },
+    {
+        "firstName": "Zachary",
+        "lastName": "Weston",
+        "age": 23,
+        "email": "zachary.weston@propellerhead.co.nz",
+        "phone": "02108120278",
+        "products": [
+            {
+                "id": "16d55fee-c368-4718-8ffb-862e0e385b01",
+                "name": "Xbox series X",
+                "price": 700,
+                "description": "Brand new"
+            }
+        ]
+    },
+    {
+        "name": "Xbox series X",
+        "price": 700,
+        "description": "Brand new"
+    }
+]
