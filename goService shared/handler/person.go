@@ -61,7 +61,7 @@ func (p *Person) Query(w http.ResponseWriter, r *http.Request) {
 	fn := r.URL.Query().Get("fn")
 	ln := r.URL.Query().Get("ln")
 	st := r.URL.Query().Get("st")
-	lmt := int64(20)
+	lmt := int64(6)
 
 	ppl, err := p.Store.GetPeople(fn, ln, st, &lmt)
 	if err != nil {
