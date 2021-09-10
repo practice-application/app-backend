@@ -33,8 +33,6 @@ func (o *Org) Create(w http.ResponseWriter, r *http.Request) {
 
 func (o *Org) Get(w http.ResponseWriter, r *http.Request) {
 
-	// parts := strings.Split(r.RequestURI, "/")
-	// id := parts[len(parts)-1]
 	id := chi.URLParam(r, "id")
 
 	org, err := o.Store.GetOrg(id)
@@ -68,8 +66,6 @@ func (o *Org) Update(w http.ResponseWriter, r *http.Request) {
 
 func (o *Org) Delete(w http.ResponseWriter, r *http.Request) {
 
-	// parts := strings.Split(r.RequestURI, "/")
-	// id := parts[len(parts)-1]
 	id := chi.URLParam(r, "id")
 
 	if err := o.Store.DeleteOrg(id); err != nil {

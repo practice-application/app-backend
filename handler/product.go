@@ -16,17 +16,6 @@ type Product struct {
 	Store store.Store
 }
 
-// func (p *Person) Handle(w http.ResponseWriter, r *http.Request) {
-
-// 	switch r.Method {
-// 	case http.MethodPost:
-// 		p.create(w, r)
-// 	case http.MethodDelete:
-// 		p.delete(w, r)
-// 	}
-
-// }
-
 func (prd *Product) Create(w http.ResponseWriter, r *http.Request) {
 
 	defer r.Body.Close()
@@ -37,7 +26,6 @@ func (prd *Product) Create(w http.ResponseWriter, r *http.Request) {
 	var prod data.Product
 	json.Unmarshal(reqByt, &prod)
 
-	// ID, _ := primitive.ObjectIDFromHex(idNum)
 	prod.ID = uuid.New().String()
 	prd.Store.AddProduct(prod)
 	w.Write([]byte("done"))
@@ -45,8 +33,6 @@ func (prd *Product) Create(w http.ResponseWriter, r *http.Request) {
 
 func (prd *Product) Get(w http.ResponseWriter, r *http.Request) {
 
-	// parts := strings.Split(r.RequestURI, "/")
-	// id := parts[len(parts)-1]
 	id := chi.URLParam(r, "id")
 
 	prod, err := prd.Store.GetProduct(id)
@@ -80,8 +66,6 @@ func (prd *Product) Update(w http.ResponseWriter, r *http.Request) {
 
 func (prd *Product) Delete(w http.ResponseWriter, r *http.Request) {
 
-	// parts := strings.Split(r.RequestURI, "/")
-	// id := parts[len(parts)-1]
 	id := chi.URLParam(r, "id")
 
 	if err := prd.Store.DeleteProduct(id); err != nil {
