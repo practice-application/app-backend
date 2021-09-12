@@ -4,12 +4,26 @@ import (
 	"fmt"
 	"net/http"
 
+	// "github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/cors"
+	"github.com/go-chi/jwtauth/v5"
+
 	"github.com/el-zacharoo/goService-shared/handler"
 	"github.com/el-zacharoo/goService-shared/store"
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
-	"github.com/go-chi/cors"
 )
+
+var tokenAuth *jwtauth.JWTAuth
+
+func init() {
+	tokenAuth = jwtauth.New("HS256", []byte("secret"), nil)
+
+	// For debugging/example purposes, we generate and print
+	// a sample jwt token with claims `user_id:123` here:
+	_, tokenString, _ := tokenAuth.Encode(map[string]interface{}{"user_id": 123})
+	fmt.Printf("DEBUG: a sample jwt is %s\n\n", tokenString)
+}
 
 func main() {
 	s := store.Store{}
@@ -17,7 +31,11 @@ func main() {
 
 	// chi
 	r := chi.NewRouter()
-	r.Use(middleware.Logger,
+	r.Use(
+		middleware.Logger,
+		middleware.StripSlashes,
+		jwtauth.Verifier(tokenAuth),
+		jwtauth.Authenticator,
 		cors.Handler(cors.Options{
 			AllowedOrigins:   []string{"https://*", "http://*"},
 			AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS", "QUERY"},
@@ -25,8 +43,7 @@ func main() {
 			ExposedHeaders:   []string{"Link"},
 			AllowCredentials: false,
 			MaxAge:           300,
-		},
-		),
+		}),
 	)
 
 	p := &handler.Person{
