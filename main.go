@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 
@@ -50,7 +51,7 @@ func main() {
 		Store: s,
 	}
 	r.Route("/people", func(r chi.Router) {
-		r.With(authz).Post("/", p.Create)
+		r.With(authz("read:people")).Post("/", p.Create)
 		r.Get("/{id}", p.Get)
 		r.Get("/", p.Query)
 		r.Put("/{id}", p.Update)
@@ -83,16 +84,32 @@ func main() {
 	}
 }
 
-func authz(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		rctx := chi.RouteContext(r.Context())
-		if rctx != nil && rctx.RoutePath == "/people" {
-			_, claims, _ := jwtauth.FromContext(r.Context())
-			canRead := claims["read:people"].(bool)
-			if !canRead {
-				w.Write([]byte(fmt.Sprintf("protected area. hi %v", claims["user_id"])))
+func authz(p string) func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if allow := authorise(r.Context(), p); !allow {
+				http.Error(w, "insufficient permission", http.StatusForbidden)
+				return
 			}
+			next.ServeHTTP(w, r)
+		})
+	}
+}
+
+func authorise(ctx context.Context, permission string) bool {
+	_, claims, _ := jwtauth.FromContext(ctx)
+	ps, ok := claims["permissions"].([]interface{})
+	if !ok {
+		return false
+	}
+
+	allow := false
+	for _, p := range ps {
+		if p.(string) == permission {
+			allow = true
+			break
 		}
-		next.ServeHTTP(w, r)
-	})
+	}
+	
+	return allow
 }
