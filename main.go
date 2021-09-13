@@ -22,8 +22,13 @@ func init() {
 
 	// For debugging/example purposes, we generate and print
 	// a sample jwt token with claims `user_id:123` here:
-	_, tokenString, _ := tokenAuth.Encode(map[string]interface{}{"user_id": 123})
-	fmt.Printf("DEBUG: a sample jwt is %s\n\n", tokenString)
+	// _, tokenString, _ := tokenAuth.Encode(map[string]interface{}{"user_id": 123})
+	_, tokenString, _ := tokenAuth.Encode(map[string]interface{}{
+		"permissions": []interface{}{
+			"write:people",
+		},
+	})
+	fmt.Printf("DEBUG sample jwt: %s\n\n", tokenString)
 }
 
 func main() {
@@ -43,8 +48,8 @@ func main() {
 			AllowCredentials: false,
 			MaxAge:           300,
 		}),
-		jwtauth.Verifier(tokenAuth),
 		jwtauth.Authenticator,
+		jwtauth.Verifier(tokenAuth),
 	)
 
 	p := &handler.Person{
