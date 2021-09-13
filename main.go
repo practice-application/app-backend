@@ -48,8 +48,8 @@ func main() {
 			AllowCredentials: false,
 			MaxAge:           300,
 		}),
-		jwtauth.Authenticator,
 		jwtauth.Verifier(tokenAuth),
+		jwtauth.Authenticator,
 	)
 
 	p := &handler.Person{
