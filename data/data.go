@@ -4,7 +4,7 @@ type Person struct {
 	ID        string    `bson:"id"`
 	FirstName string    `bson:"firstName"`
 	LastName  string    `bson:"lastName"`
-	Age       int       `bson:"age"`
+	Age       string    `bson:"age"`
 	Email     string    `bson:"email"`
 	Phone     string    `bson:"phone"`
 	Product   []Product `bson:"product"`

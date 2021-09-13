@@ -65,13 +65,13 @@ func (s *Store) GetPeople(fn, ln, searchText string, limit, skip *int64) ([]data
 
 	if fn != "" {
 		filter = bson.M{"$and": bson.A{filter,
-			bson.M{"firstname": fn},
+			bson.M{"firstName": fn},
 		}}
 	}
 
 	if ln != "" {
 		filter = bson.M{"$and": bson.A{filter,
-			bson.M{"lastname": ln},
+			bson.M{"lastName": ln},
 		}}
 	}
 
@@ -84,7 +84,7 @@ func (s *Store) GetPeople(fn, ln, searchText string, limit, skip *int64) ([]data
 	opt := options.FindOptions{
 		Skip:  skip,
 		Limit: limit,
-		Sort:  bson.M{"lastname": -1},
+		Sort:  bson.M{"lastName": -1},
 	}
 
 	mctx := context.Background()

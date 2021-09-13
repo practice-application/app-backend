@@ -56,12 +56,12 @@ func (o *Org) Query(w http.ResponseWriter, r *http.Request) {
 	lmt := int64(10)
 	skip := int64(10)
 
-	ppl, err := o.Store.GetOrganisations(on, ot, st, &lmt, &skip)
+	org, err := o.Store.GetOrganisations(on, ot, st, &lmt, &skip)
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("error %v", err)))
 	}
 
-	rspByt, err := json.Marshal(ppl)
+	rspByt, err := json.Marshal(org)
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("error %v", err)))
 	}

@@ -46,6 +46,17 @@ func main() {
 		}),
 	)
 
+	r.Group(func(r chi.Router) {
+		// Seek, verify and validate JWT tokens
+		r.Use(jwtauth.Verifier(tokenAuth))
+		r.Use(jwtauth.Authenticator)
+
+		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+			_, claims, _ := jwtauth.FromContext(r.Context())
+			w.Write([]byte(fmt.Sprintf("Hello user: %v!", claims["user_id"])))
+		})
+	})
+
 	p := &handler.Person{
 		Store: s,
 	}
@@ -62,6 +73,7 @@ func main() {
 	}
 	r.Route("/organisations", func(r chi.Router) {
 		r.Post("/", o.Create)
+		r.Get("/", o.Query)
 		r.Get("/{id}", o.Get)
 		r.Put("/{id}", o.Update)
 		r.Delete("/{id}", o.Delete)
