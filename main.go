@@ -50,7 +50,7 @@ func main() {
 		Store: s,
 	}
 	r.Route("/people", func(r chi.Router) {
-		r.Post("/", p.Create)
+		r.With(authz).Post("/", p.Create)
 		r.Get("/{id}", p.Get)
 		r.Get("/", p.Query)
 		r.Put("/{id}", p.Update)
@@ -81,4 +81,18 @@ func main() {
 	if err := http.ListenAndServe(":8080", r); err != nil {
 		fmt.Print(err)
 	}
+}
+
+func authz(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		rctx := chi.RouteContext(r.Context())
+		if rctx != nil && rctx.RoutePath == "/people" {
+			_, claims, _ := jwtauth.FromContext(r.Context())
+			canRead := claims["read:people"].(bool)
+			if !canRead {
+				w.Write([]byte(fmt.Sprintf("protected area. hi %v", claims["user_id"])))
+			}
+		}
+		next.ServeHTTP(w, r)
+	})
 }
