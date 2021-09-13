@@ -59,19 +59,19 @@ func (s *Store) GetPerson(id string) (data.Person, error) {
 	return p, nil
 }
 
-func (s *Store) GetPeople(fn, ln, searchText string, limit *int64) ([]data.Person, error) {
+func (s *Store) GetPeople(fn, ln, searchText string, limit, skip *int64) ([]data.Person, error) {
 
 	filter := bson.M{}
 
 	if fn != "" {
 		filter = bson.M{"$and": bson.A{filter,
-			bson.M{"firstname": fn},
+			bson.M{"firstName": fn},
 		}}
 	}
 
 	if ln != "" {
 		filter = bson.M{"$and": bson.A{filter,
-			bson.M{"lastname": ln},
+			bson.M{"lastName": ln},
 		}}
 	}
 
@@ -82,9 +82,9 @@ func (s *Store) GetPeople(fn, ln, searchText string, limit *int64) ([]data.Perso
 	}
 
 	opt := options.FindOptions{
-		// Skip:  offset,
+		Skip:  skip,
 		Limit: limit,
-		Sort:  bson.M{"lastname": -1},
+		Sort:  bson.M{"lastName": -1},
 	}
 
 	mctx := context.Background()
@@ -141,6 +141,48 @@ func (s *Store) GetOrg(id string) (data.Org, error) {
 	}
 
 	return o, nil
+}
+func (s *Store) GetOrganisations(on, ot, searchText string, limit, skip *int64) ([]data.Org, error) {
+
+	filter := bson.M{}
+
+	if on != "" {
+		filter = bson.M{"$and": bson.A{filter,
+			bson.M{"organisationName": on},
+		}}
+	}
+
+	if ot != "" {
+		filter = bson.M{"$and": bson.A{filter,
+			bson.M{"orgType": ot},
+		}}
+	}
+
+	if searchText != "" {
+		filter = bson.M{"$and": bson.A{filter,
+			bson.M{"$text": bson.M{"$search": searchText}},
+		}}
+	}
+
+	opt := options.FindOptions{
+		Skip:  skip,
+		Limit: limit,
+		Sort:  bson.M{"organisationName": -1},
+	}
+
+	mctx := context.Background()
+	cursor, err := s.Org.Find(mctx, filter, &opt)
+	if err != nil {
+		return []data.Org{}, nil
+	}
+
+	// unpack results
+	var org []data.Org
+	if err := cursor.All(mctx, &org); err != nil {
+		return []data.Org{}, nil
+	}
+
+	return org, nil
 }
 
 func (s *Store) UpdateOrg(id string, o data.Org) {

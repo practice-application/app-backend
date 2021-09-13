@@ -48,6 +48,26 @@ func (o *Org) Get(w http.ResponseWriter, r *http.Request) {
 	w.Write(rspByt)
 }
 
+func (o *Org) Query(w http.ResponseWriter, r *http.Request) {
+
+	on := r.URL.Query().Get("on")
+	ot := r.URL.Query().Get("ot")
+	st := r.URL.Query().Get("st")
+	lmt := int64(10)
+	skip := int64(10)
+
+	org, err := o.Store.GetOrganisations(on, ot, st, &lmt, &skip)
+	if err != nil {
+		w.Write([]byte(fmt.Sprintf("error %v", err)))
+	}
+
+	rspByt, err := json.Marshal(org)
+	if err != nil {
+		w.Write([]byte(fmt.Sprintf("error %v", err)))
+	}
+	w.Write(rspByt)
+}
+
 func (o *Org) Update(w http.ResponseWriter, r *http.Request) {
 
 	defer r.Body.Close()
