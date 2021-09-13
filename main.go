@@ -18,7 +18,7 @@ import (
 var tokenAuth *jwtauth.JWTAuth
 
 func init() {
-	tokenAuth = jwtauth.New("HS256", []byte("secret"), nil)
+	tokenAuth = jwtauth.New("HS256", []byte("MMrTXm6rI0CsIcC0VsLpRaF6c6BcOIlnnXbDnc7pDhcdDYuYV2hSOyaUJfAG50hC"), nil)
 
 	// For debugging/example purposes, we generate and print
 	// a sample jwt token with claims `user_id:123` here:
