@@ -35,8 +35,6 @@ func main() {
 	r.Use(
 		middleware.Logger,
 		middleware.StripSlashes,
-		jwtauth.Verifier(tokenAuth),
-		jwtauth.Authenticator,
 		cors.Handler(cors.Options{
 			AllowedOrigins:   []string{"https://*", "http://*"},
 			AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS", "QUERY"},
@@ -45,18 +43,9 @@ func main() {
 			AllowCredentials: false,
 			MaxAge:           300,
 		}),
+		jwtauth.Verifier(tokenAuth),
+		jwtauth.Authenticator,
 	)
-
-	r.Group(func(r chi.Router) {
-		// Seek, verify and validate JWT tokens
-		r.Use(jwtauth.Verifier(tokenAuth))
-		r.Use(jwtauth.Authenticator)
-
-		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-			_, claims, _ := jwtauth.FromContext(r.Context())
-			w.Write([]byte(fmt.Sprintf("Hello user: %v!", claims["user_id"])))
-		})
-	})
 
 	p := &handler.Person{
 		Store: s,
