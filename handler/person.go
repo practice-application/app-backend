@@ -62,8 +62,9 @@ func (p *Person) Query(w http.ResponseWriter, r *http.Request) {
 	ln := r.URL.Query().Get("ln")
 	st := r.URL.Query().Get("st")
 	lmt := int64(10)
-
-	ppl, err := p.Store.GetPeople(fn, ln, st, &lmt)
+	skip := int64(10)
+	
+	ppl, err := p.Store.GetPeople(fn, ln, st, &lmt, &skip)
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("error %v", err)))
 	}
