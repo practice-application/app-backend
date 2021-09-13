@@ -51,7 +51,7 @@ func main() {
 		Store: s,
 	}
 	r.Route("/people", func(r chi.Router) {
-		r.With(authz("read:people")).Post("/", p.Create)
+		r.With(authz("write:people")).Post("/", p.Create)
 		r.Get("/{id}", p.Get)
 		r.Get("/", p.Query)
 		r.Put("/{id}", p.Update)
@@ -110,6 +110,6 @@ func authorise(ctx context.Context, permission string) bool {
 			break
 		}
 	}
-	
+
 	return allow
 }
