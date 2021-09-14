@@ -1,26 +1,26 @@
 package data
 
 type Person struct {
-	ID        string    `bson:"id"`
-	FirstName string    `bson:"firstName"`
-	LastName  string    `bson:"lastName"`
-	Age       string    `bson:"age"`
-	Email     string    `bson:"email"`
-	Phone     string    `bson:"phone"`
-	Product   []Product `bson:"product"`
+	ID        string    `json:"id"`
+	FirstName string    `json:"firstName"`
+	LastName  string    `json:"lastName"`
+	Age       string    `json:"age"`
+	Email     string    `json:"email"`
+	Phone     string    `json:"phone"`
+	Product   []Product `json:"product"`
 }
 
 type Org struct {
-	ID               string   `bson:"id"`
-	OrganisationName string   `bson:"organisationName"`
-	OrgType          string   `bson:"orgType"`
-	OrgSize          string   `bson:"orgSize"`
-	People           []Person `bson:"people"`
+	ID               string   `json:"id"`
+	OrganisationName string   `json:"organisationName"`
+	OrgType          string   `json:"orgType"`
+	OrgSize          string   `json:"orgSize"`
+	People           []Person `json:"people"`
 }
 
 type Product struct {
-	ID          string `bson:"id"`
-	Name        string `bson:"name"`
-	Price       int    `bson:"price"`
-	Description string `bson:"description"`
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Price       string `json:"price"`
+	Description string `json:"description"`
 }
