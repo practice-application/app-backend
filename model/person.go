@@ -8,5 +8,6 @@ type Person struct {
 	Email     string    `json:"email"`
 	Phone     string    `json:"phone"`
 	Product   []Product `json:"product"`
+	Date      string    `json:"date"`
 }
 
