@@ -5,10 +5,11 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/el-zacharoo/goService-shared/data"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+
+	"github.com/practice-application/app-backend/data"
 )
 
 type Store struct {

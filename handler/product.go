@@ -6,10 +6,11 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/el-zacharoo/goService-shared/data"
-	"github.com/el-zacharoo/goService-shared/store"
 	"github.com/go-chi/chi"
 	"github.com/google/uuid"
+
+	"github.com/practice-application/app-backend/data"
+	"github.com/practice-application/app-backend/store"
 )
 
 type Product struct {

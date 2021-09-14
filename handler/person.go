@@ -6,10 +6,11 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/el-zacharoo/goService-shared/data"
-	"github.com/el-zacharoo/goService-shared/store"
 	"github.com/go-chi/chi"
 	"github.com/google/uuid"
+
+	"github.com/practice-application/app-backend/data"
+	"github.com/practice-application/app-backend/store"
 )
 
 type Person struct {
@@ -63,7 +64,7 @@ func (p *Person) Query(w http.ResponseWriter, r *http.Request) {
 	st := r.URL.Query().Get("st")
 	lmt := int64(10)
 	skip := int64(10)
-	
+
 	ppl, err := p.Store.GetPeople(fn, ln, st, &lmt, &skip)
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("error %v", err)))

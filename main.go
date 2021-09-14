@@ -3,32 +3,66 @@ package main
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 
-	// "github.com/go-chi/chi"
+	jwtmiddleware "github.com/auth0/go-jwt-middleware"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 	"github.com/go-chi/jwtauth/v5"
+	"github.com/lestrrat-go/jwx/jwk"
 
-	"github.com/el-zacharoo/goService-shared/handler"
-	"github.com/el-zacharoo/goService-shared/store"
+	"github.com/practice-application/app-backend/auth"
+	"github.com/practice-application/app-backend/handler"
+	"github.com/practice-application/app-backend/store"
 )
 
-var tokenAuth *jwtauth.JWTAuth
+var tokenAuth *auth.JWTAuth
+var jwtMiddleware *jwtmiddleware.JWTMiddleware
 
 func init() {
-	tokenAuth = jwtauth.New("HS256", []byte("MMrTXm6rI0CsIcC0VsLpRaF6c6BcOIlnnXbDnc7pDhcdDYuYV2hSOyaUJfAG50hC"), nil)
+
+	keyset, _ := getJKS()
+	//key, _ := jwt.ParseRSAPublicKeyFromPEM([]byte(cert))
+	tokenAuth = auth.New("RS256", keyset)
 
 	// For debugging/example purposes, we generate and print
-	// a sample jwt token with claims `user_id:123` here:
-	// _, tokenString, _ := tokenAuth.Encode(map[string]interface{}{"user_id": 123})
-	_, tokenString, _ := tokenAuth.Encode(map[string]interface{}{
-		"permissions": []interface{}{
-			"write:people",
-		},
-	})
-	fmt.Printf("DEBUG sample jwt: %s\n\n", tokenString)
+	// a sample jwt token with claims:
+	// _, tokenString, _ := tokenAuth.Encode(map[string]interface{}{
+	// 	"permissions": []interface{}{
+	// 		"write:people",
+	// 		"read:people",
+	// 	},
+	// })
+	// fmt.Printf("DEBUG sample jwt: %s\n\n", tokenString)
+}
+
+func getJKS() (jwk.Set, error) {
+	resp, err := http.Get("https://dev-k6bx05vf.us.auth0.com/.well-known/jwks.json")
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	byt, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	return jwk.Parse(byt)
+}
+
+func Verifier(ja string) func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if err := jwtMiddleware.CheckJWT(w, r); err != nil {
+				http.Error(w, "insufficient permission", http.StatusForbidden)
+				return
+			}
+			next.ServeHTTP(w, r)
+		})
+	}
 }
 
 func main() {
@@ -45,11 +79,13 @@ func main() {
 			AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS", "QUERY"},
 			AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 			ExposedHeaders:   []string{"Link"},
-			AllowCredentials: false,
+			AllowCredentials: true,
 			MaxAge:           300,
+			Debug:            true,
 		}),
-		jwtauth.Verifier(tokenAuth),
-		jwtauth.Authenticator,
+		// Verifier(""),
+		auth.Verifier(tokenAuth),
+		auth.Authenticator,
 	)
 
 	p := &handler.Person{
@@ -57,7 +93,7 @@ func main() {
 	}
 	r.Route("/people", func(r chi.Router) {
 		r.With(authz("write:people")).Post("/", p.Create)
-		r.Get("/{id}", p.Get)
+		r.With(authz("read:people")).Get("/{id}", p.Get)
 		r.Get("/", p.Query)
 		r.Put("/{id}", p.Update)
 		r.Delete("/{id}", p.Delete)
