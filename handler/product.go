@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/google/uuid"
@@ -28,6 +29,7 @@ func (prd *Product) Create(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(reqByt, &prod)
 
 	prod.ID = uuid.New().String()
+	prod.Date = time.Now().String()
 	prd.Store.AddProduct(prod)
 	w.Write([]byte("done"))
 }
