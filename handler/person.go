@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/google/uuid"
@@ -32,6 +33,7 @@ func (p *Person) Create(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(reqByt, &psn)
 
 	psn.ID = uuid.New().String()
+	psn.Date = time.Now().String()
 	p.Store.AddPerson(psn)
 	w.Write([]byte("done"))
 }
@@ -62,10 +64,10 @@ func (p *Person) Query(w http.ResponseWriter, r *http.Request) {
 	fn := r.URL.Query().Get("fn")
 	ln := r.URL.Query().Get("ln")
 	st := r.URL.Query().Get("st")
-	lmt := int64(10)
-	skip := int64(10)
+	// lmt := int64(10)
+	// skip := int64(10)
 
-	ppl, err := p.Store.GetPeople(fn, ln, st, &lmt, &skip)
+	ppl, err := p.Store.GetPeople(fn, ln, st /* &lmt, &skip */)
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("error %v", err)))
 	}
