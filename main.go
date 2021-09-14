@@ -1,17 +1,12 @@
 package main
 
 import (
-	"context"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 
-	jwtmiddleware "github.com/auth0/go-jwt-middleware"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
-	"github.com/go-chi/jwtauth/v5"
-	"github.com/lestrrat-go/jwx/jwk"
 
 	"github.com/practice-application/app-backend/auth"
 	"github.com/practice-application/app-backend/handler"
@@ -19,13 +14,11 @@ import (
 )
 
 var tokenAuth *auth.JWTAuth
-var jwtMiddleware *jwtmiddleware.JWTMiddleware
 
 func init() {
 
-	keyset, _ := getJKS()
-	//key, _ := jwt.ParseRSAPublicKeyFromPEM([]byte(cert))
-	tokenAuth = auth.New("RS256", keyset)
+	jwks, _ := auth.JKS("https://dev-k6bx05vf.us.auth0.com/.well-known/jwks.json")
+	tokenAuth = auth.New("RS256", jwks)
 
 	// For debugging/example purposes, we generate and print
 	// a sample jwt token with claims:
@@ -36,33 +29,6 @@ func init() {
 	// 	},
 	// })
 	// fmt.Printf("DEBUG sample jwt: %s\n\n", tokenString)
-}
-
-func getJKS() (jwk.Set, error) {
-	resp, err := http.Get("https://dev-k6bx05vf.us.auth0.com/.well-known/jwks.json")
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	byt, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	return jwk.Parse(byt)
-}
-
-func Verifier(ja string) func(http.Handler) http.Handler {
-	return func(next http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if err := jwtMiddleware.CheckJWT(w, r); err != nil {
-				http.Error(w, "insufficient permission", http.StatusForbidden)
-				return
-			}
-			next.ServeHTTP(w, r)
-		})
-	}
 }
 
 func main() {
@@ -81,9 +47,8 @@ func main() {
 			ExposedHeaders:   []string{"Link"},
 			AllowCredentials: true,
 			MaxAge:           300,
-			Debug:            true,
+			// Debug:            true,
 		}),
-		// Verifier(""),
 		auth.Verifier(tokenAuth),
 		auth.Authenticator,
 	)
@@ -92,8 +57,8 @@ func main() {
 		Store: s,
 	}
 	r.Route("/people", func(r chi.Router) {
-		r.With(authz("write:people")).Post("/", p.Create)
-		r.With(authz("read:people")).Get("/{id}", p.Get)
+		r.With(auth.Authz("write:people")).Post("/", p.Create)
+		r.With(auth.Authz("read:people")).Get("/{id}", p.Get)
 		r.Get("/", p.Query)
 		r.Put("/{id}", p.Update)
 		r.Delete("/{id}", p.Delete)
@@ -124,34 +89,4 @@ func main() {
 	if err := http.ListenAndServe(":8080", r); err != nil {
 		fmt.Print(err)
 	}
-}
-
-func authz(p string) func(http.Handler) http.Handler {
-	return func(next http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if allow := authorise(r.Context(), p); !allow {
-				http.Error(w, "insufficient permission", http.StatusForbidden)
-				return
-			}
-			next.ServeHTTP(w, r)
-		})
-	}
-}
-
-func authorise(ctx context.Context, permission string) bool {
-	_, claims, _ := jwtauth.FromContext(ctx)
-	ps, ok := claims["permissions"].([]interface{})
-	if !ok {
-		return false
-	}
-
-	allow := false
-	for _, p := range ps {
-		if p.(string) == permission {
-			allow = true
-			break
-		}
-	}
-
-	return allow
 }
