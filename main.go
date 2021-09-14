@@ -16,7 +16,6 @@ import (
 var tokenAuth *auth.JWTAuth
 
 func init() {
-
 	jwks, _ := auth.JKS("https://dev-k6bx05vf.us.auth0.com/.well-known/jwks.json")
 	tokenAuth = auth.New("RS256", jwks)
 
