@@ -60,7 +60,7 @@ func (s *Store) GetPerson(id string) (data.Person, error) {
 	return p, nil
 }
 
-func (s *Store) GetPeople(fn, ln, searchText string, limit, skip *int64) ([]data.Person, error) {
+func (s *Store) GetPeople(fn, ln, searchText string, /*limit, skip *int64*/) ([]data.Person, error) {
 
 	filter := bson.M{}
 
@@ -83,8 +83,8 @@ func (s *Store) GetPeople(fn, ln, searchText string, limit, skip *int64) ([]data
 	}
 
 	opt := options.FindOptions{
-		Skip:  skip,
-		Limit: limit,
+		//Skip:  skip,
+		//Limit: limit,
 		Sort:  bson.M{"lastName": -1},
 	}
 
