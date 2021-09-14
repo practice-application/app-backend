@@ -9,7 +9,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/google/uuid"
 
-	"github.com/practice-application/app-backend/data"
+	"github.com/practice-application/app-backend/model"
 	"github.com/practice-application/app-backend/store"
 )
 
@@ -24,7 +24,7 @@ func (o *Org) Create(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("err %v", err)))
 	}
-	var orgstn data.Org
+	var orgstn model.Org
 	json.Unmarshal(reqByt, &orgstn)
 
 	orgstn.ID = uuid.New().String()
@@ -76,7 +76,7 @@ func (o *Org) Update(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("err %v", err)))
 	}
-	var org data.Org
+	var org model.Org
 	json.Unmarshal(reqByt, &org)
 
 	id := chi.URLParam(r, "id")

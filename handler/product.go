@@ -9,7 +9,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/google/uuid"
 
-	"github.com/practice-application/app-backend/data"
+	"github.com/practice-application/app-backend/model"
 	"github.com/practice-application/app-backend/store"
 )
 
@@ -24,7 +24,7 @@ func (prd *Product) Create(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("err %v", err)))
 	}
-	var prod data.Product
+	var prod model.Product
 	json.Unmarshal(reqByt, &prod)
 
 	prod.ID = uuid.New().String()
@@ -56,7 +56,7 @@ func (prd *Product) Update(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("err %v", err)))
 	}
-	var prod data.Product
+	var prod model.Product
 	json.Unmarshal(reqByt, &prod)
 
 	id := chi.URLParam(r, "id")

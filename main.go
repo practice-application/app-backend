@@ -77,7 +77,7 @@ func main() {
 	prd := &handler.Product{
 		Store: s,
 	}
-	r.Route("/product", func(r chi.Router) {
+	r.Route("/products", func(r chi.Router) {
 		r.Post("/", prd.Create)
 		r.Get("/{id}", prd.Get)
 		r.Put("/{id}", prd.Update)

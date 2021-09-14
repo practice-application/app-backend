@@ -9,7 +9,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/google/uuid"
 
-	"github.com/practice-application/app-backend/data"
+	"github.com/practice-application/app-backend/model"
 	"github.com/practice-application/app-backend/store"
 )
 
@@ -28,7 +28,7 @@ func (p *Person) Create(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("err %v", err)))
 	}
-	var psn data.Person
+	var psn model.Person
 	json.Unmarshal(reqByt, &psn)
 
 	psn.ID = uuid.New().String()
@@ -83,7 +83,7 @@ func (p *Person) Update(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("err %v", err)))
 	}
-	var psn data.Person
+	var psn model.Person
 	json.Unmarshal(reqByt, &psn)
 
 	id := chi.URLParam(r, "id")
@@ -98,7 +98,7 @@ func (p *Person) Delete(w http.ResponseWriter, r *http.Request) {
 	// id := parts[len(parts)-1]
 	id := chi.URLParam(r, "id")
 
-	if err := p.Store.DeleteUser(id); err != nil {
+	if err := p.Store.DeletePerson(id); err != nil {
 		w.Write([]byte(fmt.Sprintf("error %v", err)))
 	}
 	w.Write([]byte("done"))
