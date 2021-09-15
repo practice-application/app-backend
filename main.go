@@ -18,16 +18,6 @@ var tokenAuth *auth.JWTAuth
 func init() {
 	jwks, _ := auth.JKS("https://dev-k6bx05vf.us.auth0.com/.well-known/jwks.json")
 	tokenAuth = auth.New("RS256", jwks)
-
-	// For debugging/example purposes, we generate and print
-	// a sample jwt token with claims:
-	// _, tokenString, _ := tokenAuth.Encode(map[string]interface{}{
-	// 	"permissions": []interface{}{
-	// 		"write:people",
-	// 		"read:people",
-	// 	},
-	// })
-	// fmt.Printf("DEBUG sample jwt: %s\n\n", tokenString)
 }
 
 func main() {
