@@ -33,7 +33,7 @@ func (p *Person) Create(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(reqByt, &psn)
 
 	psn.ID = uuid.New().String()
-	psn.Date = time.Now().String()
+	psn.Date = time.Now()
 	p.Store.AddPerson(psn)
 	w.Write([]byte("done"))
 }
