@@ -10,7 +10,7 @@ import (
 )
 
 func (s *Store) AddProduct(prd model.Product) {
-	insertResult, err := s.Product.InsertOne(context.Background(), prd)
+	insertResult, err := s.prodColl.InsertOne(context.Background(), prd)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -19,7 +19,7 @@ func (s *Store) AddProduct(prd model.Product) {
 
 func (s *Store) GetProduct(id string) (model.Product, error) {
 	var prd model.Product
-	err := s.Product.FindOne(
+	err := s.prodColl.FindOne(
 		context.Background(),
 		bson.M{"id": id},
 	).Decode(&prd)
@@ -31,7 +31,7 @@ func (s *Store) GetProduct(id string) (model.Product, error) {
 }
 
 func (s *Store) UpdateProduct(id string, prd model.Product) {
-	insertResult, err := s.Product.ReplaceOne(context.Background(), bson.M{"id": id}, prd)
+	insertResult, err := s.prodColl.ReplaceOne(context.Background(), bson.M{"id": id}, prd)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -39,7 +39,7 @@ func (s *Store) UpdateProduct(id string, prd model.Product) {
 }
 
 func (s *Store) DeleteProduct(id string) error {
-	removeResult, err := s.Product.DeleteOne(context.Background(), bson.M{"id": id})
+	removeResult, err := s.prodColl.DeleteOne(context.Background(), bson.M{"id": id})
 	if err != nil {
 		log.Fatal(err)
 	}

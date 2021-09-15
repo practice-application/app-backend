@@ -2,7 +2,6 @@ package store
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -10,25 +9,23 @@ import (
 )
 
 type Store struct {
-	Org      *mongo.Collection
-	Customer *mongo.Collection
-	Product  *mongo.Collection
+	persColl *mongo.Collection
+	orgColl  *mongo.Collection
+	prodColl *mongo.Collection
 }
 
-func (s *Store) Connect() {
+func Connect() *Store {
 	clientOptions := options.Client().ApplyURI("mongodb+srv://databaseUser:b6kz42hs@data.zugzp.mongodb.net/")
-	//ctx := context.Background()
 	client, err := mongo.Connect(context.Background(), clientOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	s.Customer = client.Database("customer-details").Collection("data")
-	fmt.Print("Connected to Mongo Database!\n")
+	db := client.Database("app")
 
-	s.Org = client.Database("org-details").Collection("data")
-	fmt.Print("Connected to Mongo Database!\n")
-
-	s.Product = client.Database("product-details").Collection("data")
-	fmt.Print("Connected to Mongo Database!\n")
+	return &Store{
+		persColl: db.Collection("person"),
+		orgColl:  db.Collection("organisation"),
+		prodColl: db.Collection("product"),
+	}
 }

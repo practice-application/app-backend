@@ -11,7 +11,7 @@ import (
 )
 
 func (s *Store) AddPerson(p model.Person) {
-	insertResult, err := s.Customer.InsertOne(context.Background(), p)
+	insertResult, err := s.persColl.InsertOne(context.Background(), p)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -21,7 +21,7 @@ func (s *Store) AddPerson(p model.Person) {
 func (s *Store) GetPerson(id string) (model.Person, error) {
 
 	var p model.Person
-	err := s.Customer.FindOne(
+	err := s.persColl.FindOne(
 		context.Background(),
 		bson.M{"id": id},
 	).Decode(&p)
@@ -61,7 +61,7 @@ func (s *Store) GetPeople(fn, ln, searchText string, limit, skip *int64) ([]mode
 	}
 
 	mctx := context.Background()
-	cursor, err := s.Customer.Find(mctx, filter, &opt)
+	cursor, err := s.persColl.Find(mctx, filter, &opt)
 	if err != nil {
 		return []model.Person{}, nil
 	}
@@ -76,7 +76,7 @@ func (s *Store) GetPeople(fn, ln, searchText string, limit, skip *int64) ([]mode
 }
 
 func (s *Store) UpdatePerson(id string, p model.Person) {
-	insertResult, err := s.Customer.ReplaceOne(context.Background(), bson.M{"id": id}, p)
+	insertResult, err := s.persColl.ReplaceOne(context.Background(), bson.M{"id": id}, p)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -84,7 +84,7 @@ func (s *Store) UpdatePerson(id string, p model.Person) {
 }
 
 func (s *Store) DeletePerson(id string) error {
-	removeResult, err := s.Customer.DeleteOne(context.Background(), bson.M{"id": id})
+	removeResult, err := s.persColl.DeleteOne(context.Background(), bson.M{"id": id})
 	if err != nil {
 
 		return err
