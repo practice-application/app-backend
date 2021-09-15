@@ -21,11 +21,10 @@ func (s *Store) AddPerson(p model.Person) {
 func (s *Store) GetPerson(id string) (model.Person, error) {
 
 	var p model.Person
-	err := s.persColl.FindOne(
+	if err := s.persColl.FindOne(
 		context.Background(),
 		bson.M{"id": id},
-	).Decode(&p)
-	if err != nil {
+	).Decode(&p);err != nil {
 		return model.Person{}, err
 	}
 
