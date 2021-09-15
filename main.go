@@ -31,8 +31,7 @@ func init() {
 }
 
 func main() {
-	s := store.Store{}
-	s.Connect()
+	s := store.Connect()
 
 	// chi
 	r := chi.NewRouter()

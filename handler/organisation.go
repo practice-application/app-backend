@@ -14,7 +14,7 @@ import (
 )
 
 type Org struct {
-	Store store.Store
+	Store *store.Store
 }
 
 func (o *Org) Create(w http.ResponseWriter, r *http.Request) {

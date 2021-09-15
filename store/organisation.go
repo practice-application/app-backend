@@ -13,7 +13,7 @@ import (
 // Organisation
 
 func (s *Store) AddOrg(o model.Org) {
-	insertResult, err := s.Org.InsertOne(context.Background(), o)
+	insertResult, err := s.orgColl.InsertOne(context.Background(), o)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -22,7 +22,7 @@ func (s *Store) AddOrg(o model.Org) {
 
 func (s *Store) GetOrg(id string) (model.Org, error) {
 	var o model.Org
-	err := s.Org.FindOne(
+	err := s.orgColl.FindOne(
 		context.Background(),
 		bson.M{"id": id},
 	).Decode(&o)
@@ -61,7 +61,7 @@ func (s *Store) GetOrganisations(on, ot, searchText string, limit, skip *int64) 
 	}
 
 	mctx := context.Background()
-	cursor, err := s.Org.Find(mctx, filter, &opt)
+	cursor, err := s.orgColl.Find(mctx, filter, &opt)
 	if err != nil {
 		return []model.Org{}, nil
 	}
@@ -76,7 +76,7 @@ func (s *Store) GetOrganisations(on, ot, searchText string, limit, skip *int64) 
 }
 
 func (s *Store) UpdateOrg(id string, o model.Org) {
-	insertResult, err := s.Org.ReplaceOne(context.Background(), bson.M{"id": id}, o)
+	insertResult, err := s.orgColl.ReplaceOne(context.Background(), bson.M{"id": id}, o)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -84,7 +84,7 @@ func (s *Store) UpdateOrg(id string, o model.Org) {
 }
 
 func (s *Store) DeleteOrg(id string) error {
-	removeResult, err := s.Org.DeleteOne(context.Background(), bson.M{"id": id})
+	removeResult, err := s.orgColl.DeleteOne(context.Background(), bson.M{"id": id})
 	if err != nil {
 		log.Fatal(err)
 	}

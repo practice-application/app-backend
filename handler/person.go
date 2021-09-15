@@ -15,7 +15,7 @@ import (
 )
 
 type Person struct {
-	Store store.Store
+	Store *store.Store
 }
 
 func (p *Person) Create(w http.ResponseWriter, r *http.Request) {

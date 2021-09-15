@@ -15,7 +15,7 @@ import (
 )
 
 type Product struct {
-	Store store.Store
+	Store *store.Store
 }
 
 func (prd *Product) Create(w http.ResponseWriter, r *http.Request) {
