@@ -58,7 +58,7 @@ func main() {
 	r.Route("/people", func(r chi.Router) {
 		r.With(auth.Authz("write:people")).Post("/", p.Create)
 		r.With(auth.Authz("read:people")).Get("/{id}", p.Get)
-		r.Get("/", p.Query)
+		r.With(auth.Authz("read:people")).Get("/", p.Query)
 		r.Put("/{id}", p.Update)
 		r.Delete("/{id}", p.Delete)
 	})
