@@ -7,7 +7,3 @@
     X-Frame-Options = "Allow"
     X-XSS-Protection = "1; mode=block"
     Content-Security-Policy = "https://frosty-leavitt-765165.netlify.app"
-
-[redirects.headers]
-  X-From = "Netlify"
-  X-Api-Key = "610d5ace-3c23-4653-abef-65633f840a08"
