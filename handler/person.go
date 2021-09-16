@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/go-chi/chi"
@@ -64,8 +65,10 @@ func (p *Person) Query(w http.ResponseWriter, r *http.Request) {
 	fn := r.URL.Query().Get("fn")
 	ln := r.URL.Query().Get("ln")
 	st := r.URL.Query().Get("st")
-	lmt := int64(10)
-	skip := int64(10)
+	lmtStr := r.URL.Query().Get("lmt")
+	skipStr := r.URL.Query().Get("off")
+	lmt, _ := strconv.ParseInt(lmtStr, 10, 64)
+	skip, _ := strconv.ParseInt(skipStr, 10, 64)
 
 	ppl, err := p.Store.GetPeople(fn, ln, st, &lmt, &skip)
 	if err != nil {

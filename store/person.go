@@ -24,14 +24,14 @@ func (s *Store) GetPerson(id string) (model.Person, error) {
 	if err := s.persColl.FindOne(
 		context.Background(),
 		bson.M{"id": id},
-	).Decode(&p);err != nil {
+	).Decode(&p); err != nil {
 		return model.Person{}, err
 	}
 
 	return p, nil
 }
 
-func (s *Store) GetPeople(fn, ln, searchText string, limit, skip *int64) ([]model.Person, error) {
+func (s *Store) GetPeople(fn, ln, searchText string, limit, skip *int64) (model.Page, error) {
 
 	filter := bson.M{}
 
@@ -62,16 +62,18 @@ func (s *Store) GetPeople(fn, ln, searchText string, limit, skip *int64) ([]mode
 	mctx := context.Background()
 	cursor, err := s.persColl.Find(mctx, filter, &opt)
 	if err != nil {
-		return []model.Person{}, nil
+		return model.Page{}, err
 	}
 
 	// unpack results
-	var ppl []model.Person
-	if err := cursor.All(mctx, &ppl); err != nil {
-		return []model.Person{}, nil
+	var pg model.Page
+	if err := cursor.All(mctx, &pg.Data); err != nil {
+		return model.Page{}, err
 	}
-
-	return ppl, nil
+	if pg.Matches, err = s.persColl.CountDocuments(mctx, filter); err != nil {
+		return model.Page{}, err
+	}
+	return pg, nil
 }
 
 func (s *Store) UpdatePerson(id string, p model.Person) {
