@@ -1,0 +1,20 @@
+
+[[headers]]
+  # Define which paths this specific [[headers]] block will cover.
+  for = "/*"
+
+[headers.values]
+    X-Frame-Options = "Allow"
+    X-XSS-Protection = "1; mode=block"
+    Content-Security-Policy = "https://frosty-leavitt-765165.netlify.app"
+
+    # Multi-value headers are expressed with multi-line strings.
+    cache-control = '''
+    max-age=0,
+    no-cache,
+    no-store,
+    must-revalidate'''
+
+[redirects.headers]
+  X-From = "Netlify"
+  X-Api-Key = "610d5ace-3c23-4653-abef-65633f840a08"
