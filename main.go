@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -74,7 +75,7 @@ func main() {
 	})
 
 	// start server
-	if err := http.ListenAndServe(":8080", r); err != nil {
+	if err := http.ListenAndServe(":"+os.Getenv("PORT"), r); err != nil {
 		fmt.Print(err)
 	}
 }
