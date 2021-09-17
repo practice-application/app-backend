@@ -48,8 +48,8 @@ func main() {
 		r.With(auth.Authz("write:people")).Post("/", p.Create)
 		r.With(auth.Authz("read:people")).Get("/{id}", p.Get)
 		r.With(auth.Authz("read:people")).Get("/", p.Query)
-		r.Put("/{id}", p.Update)
-		r.Delete("/{id}", p.Delete)
+		r.With(auth.Authz("write:people")).Put("/{id}", p.Update)
+		r.With(auth.Authz("write:people")).Delete("/{id}", p.Delete)
 	})
 
 	o := &handler.Org{
