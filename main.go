@@ -57,21 +57,21 @@ func main() {
 		Store: s,
 	}
 	r.Route("/organisations", func(r chi.Router) {
-		r.Post("/", o.Create)
-		r.Get("/", o.Query)
-		r.Get("/{id}", o.Get)
-		r.Put("/{id}", o.Update)
-		r.Delete("/{id}", o.Delete)
+		r.With(auth.Authz("write:organisations")).Post("/", o.Create)
+		r.With(auth.Authz("read:organisations")).Get("/", o.Query)
+		r.With(auth.Authz("read:organisations")).Get("/{id}", o.Get)
+		r.With(auth.Authz("write:organisations")).Put("/{id}", o.Update)
+		r.With(auth.Authz("write:organisations")).Delete("/{id}", o.Delete)
 	})
 
 	prd := &handler.Product{
 		Store: s,
 	}
 	r.Route("/products", func(r chi.Router) {
-		r.Post("/", prd.Create)
-		r.Get("/{id}", prd.Get)
-		r.Put("/{id}", prd.Update)
-		r.Delete("/{id}", prd.Delete)
+		r.With(auth.Authz("write:products")).Post("/", prd.Create)
+		r.With(auth.Authz("read:products")).Get("/{id}", prd.Get)
+		r.With(auth.Authz("write:products")).Put("/{id}", prd.Update)
+		r.With(auth.Authz("write:products")).Delete("/{id}", prd.Delete)
 	})
 
 	// start server
