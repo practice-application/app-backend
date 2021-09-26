@@ -7,7 +7,7 @@
             {
                 "firstName": "Zachary",
                 "lastName": "Weston",
-                "age": 23,
+                "age": "14/06/1998",
                 "email": "zachary.weston@propellerhead.co.nz",
                 "phone": "02108120278"
             }
@@ -16,7 +16,7 @@
     {
         "firstName": "Zachary",
         "lastName": "Weston",
-        "age": "23",
+        "age": "14/06/1998",
         "email": "zachary.weston@propellerhead.co.nz",
         "phone": "02108120278",
         "products": [

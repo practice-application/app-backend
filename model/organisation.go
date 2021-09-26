@@ -6,4 +6,5 @@ type Org struct {
 	OrgType string   `json:"orgType"`
 	OrgSize string   `json:"orgSize"`
 	People  []Person `json:"people"`
+	Address Location `json:"address"`
 }

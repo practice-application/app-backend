@@ -1,6 +1,8 @@
 package model
 
-import "time"
+import (
+	"time"
+)
 
 type Person struct {
 	ID        string    `json:"id"`
@@ -11,6 +13,7 @@ type Person struct {
 	Phone     string    `json:"phone"`
 	Product   []Product `json:"product"`
 	Date      time.Time `json:"date"`
+	Address   Location  `json:"address"`
 }
 
 type Page struct {
