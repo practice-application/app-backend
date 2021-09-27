@@ -5,8 +5,8 @@ import (
 )
 
 type Location struct {
-	StreetNumber int                   `json:"streetNumber"`
-	StreetName   string                `json:"streetName"`
+	AddressLine1 int                   `json:"addressLine1"`
+	AddressLine2 string                `json:"addressLine2"`
 	Suburb       string                `json:"suburb"`
 	City         string                `json:"city"`
 	Country      countries.CountryCode `json:"contry"`

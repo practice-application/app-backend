@@ -7,6 +7,7 @@ import (
 
 	"github.com/practice-application/app-backend/model"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func (s *Store) AddProduct(prd model.Product) {
@@ -28,6 +29,45 @@ func (s *Store) GetProduct(id string) (model.Product, error) {
 	}
 
 	return prd, nil
+}
+
+func (s *Store) GetProducts(nm, searchText string, limit, skip *int64) (model.Page, error) {
+
+	filter := bson.M{}
+
+	if nm != "" {
+		filter = bson.M{"$and": bson.A{filter,
+			bson.M{"name": nm},
+		}}
+	}
+
+	if searchText != "" {
+		filter = bson.M{"$and": bson.A{filter,
+			bson.M{"$text": bson.M{"$search": searchText}},
+		}}
+	}
+
+	opt := options.FindOptions{
+		Skip:  skip,
+		Limit: limit,
+		Sort:  bson.M{"name": -1},
+	}
+
+	mctx := context.Background()
+	cursor, err := s.persColl.Find(mctx, filter, &opt)
+	if err != nil {
+		return model.Page{}, err
+	}
+
+	// unpack results
+	var pg model.Page
+	if err := cursor.All(mctx, &pg.Data); err != nil {
+		return model.Page{}, err
+	}
+	if pg.Matches, err = s.persColl.CountDocuments(mctx, filter); err != nil {
+		return model.Page{}, err
+	}
+	return pg, nil
 }
 
 func (s *Store) UpdateProduct(id string, prd model.Product) {

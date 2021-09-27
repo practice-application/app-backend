@@ -100,8 +100,6 @@ func (p *Person) Update(w http.ResponseWriter, r *http.Request) {
 
 func (p *Person) Delete(w http.ResponseWriter, r *http.Request) {
 
-	// parts := strings.Split(r.RequestURI, "/")
-	// id := parts[len(parts)-1]
 	id := chi.URLParam(r, "id")
 
 	if err := p.Store.DeletePerson(id); err != nil {

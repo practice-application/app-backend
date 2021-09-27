@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/go-chi/chi"
@@ -33,6 +34,27 @@ func (prd *Product) Create(w http.ResponseWriter, r *http.Request) {
 
 	prd.Store.AddProduct(prod)
 	w.Write([]byte("done"))
+}
+
+func (prd *Product) Query(w http.ResponseWriter, r *http.Request) {
+
+	nm := r.URL.Query().Get("name")
+	st := r.URL.Query().Get("st")
+	lmtStr := r.URL.Query().Get("lmt")
+	skipStr := r.URL.Query().Get("off")
+	lmt, _ := strconv.ParseInt(lmtStr, 10, 64)
+	skip, _ := strconv.ParseInt(skipStr, 10, 64)
+
+	prods, err := prd.Store.GetProducts(nm, st, &lmt, &skip)
+	if err != nil {
+		w.Write([]byte(fmt.Sprintf("error %v", err)))
+	}
+
+	rspByt, err := json.Marshal(prods)
+	if err != nil {
+		w.Write([]byte(fmt.Sprintf("error %v", err)))
+	}
+	w.Write(rspByt)
 }
 
 func (prd *Product) Get(w http.ResponseWriter, r *http.Request) {
