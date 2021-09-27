@@ -5,9 +5,10 @@ import (
 )
 
 type Location struct {
-	AddressLine1 string                `json:"addressLine1"`
-	AddressLine2 string                `json:"addressLine2"`
-	Suburb       string                `json:"suburb"`
-	City         string                `json:"city"`
-	Country      countries.CountryCode `json:"contry"`
+	AddressLine1 string            `json:"addressLine1"`
+	AddressLine2 string            `json:"addressLine2"`
+	Suburb       string            `json:"suburb"`
+	City         string            `json:"city"`
+	Region       string            `json:"region"`
+	Country      countries.Country `json:"country"`
 }
