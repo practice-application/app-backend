@@ -5,7 +5,7 @@ import (
 )
 
 type Location struct {
-	AddressLine1 int                   `json:"addressLine1"`
+	AddressLine1 string                `json:"addressLine1"`
 	AddressLine2 string                `json:"addressLine2"`
 	Suburb       string                `json:"suburb"`
 	City         string                `json:"city"`
