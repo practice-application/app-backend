@@ -14,6 +14,7 @@ type Person struct {
 	Product   []Product `json:"product"`
 	Date      time.Time `json:"date"`
 	Address   Location  `json:"address"`
+	Country   string    `json:"country"`
 }
 
 type Page struct {
