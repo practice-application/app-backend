@@ -9,3 +9,8 @@ type Product struct {
 	Description string    `json:"description"`
 	Date        time.Time `json:"date"`
 }
+
+type ProductPage struct {
+	Data    []Product `json:"data"`
+	Matches int64     `json:"matches"`
+}

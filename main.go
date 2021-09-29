@@ -58,8 +58,8 @@ func main() {
 	}
 	r.Route("/organisations", func(r chi.Router) {
 		r.With(auth.Authz("write:organisations")).Post("/", o.Create)
-		r.With(auth.Authz("read:organisations")).Get("/", o.Query)
 		r.With(auth.Authz("read:organisations")).Get("/{id}", o.Get)
+		r.With(auth.Authz("read:organisations")).Get("/", o.Query)
 		r.With(auth.Authz("write:organisations")).Put("/{id}", o.Update)
 		r.With(auth.Authz("write:organisations")).Delete("/{id}", o.Delete)
 	})
