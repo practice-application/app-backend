@@ -3,7 +3,6 @@ module github.com/practice-application/app-backend
 go 1.16
 
 require (
-	github.com/biter777/countries v1.3.4
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.0 // indirect
 	github.com/go-chi/chi v1.5.4
 	github.com/go-chi/cors v1.2.0

@@ -70,6 +70,7 @@ func main() {
 	r.Route("/products", func(r chi.Router) {
 		r.With(auth.Authz("write:products")).Post("/", prd.Create)
 		r.With(auth.Authz("read:products")).Get("/{id}", prd.Get)
+		r.With(auth.Authz("read:products")).Get("/", prd.Query)
 		r.With(auth.Authz("write:products")).Put("/{id}", prd.Update)
 		r.With(auth.Authz("write:products")).Delete("/{id}", prd.Delete)
 	})
