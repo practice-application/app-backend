@@ -54,7 +54,7 @@ func (s *Store) GetProducts(nm, searchText string, limit, skip *int64) (model.Pr
 	}
 
 	mctx := context.Background()
-	cursor, err := s.persColl.Find(mctx, filter, &opt)
+	cursor, err := s.prodColl.Find(mctx, filter, &opt)
 	if err != nil {
 		return model.ProductPage{}, err
 	}
@@ -64,7 +64,7 @@ func (s *Store) GetProducts(nm, searchText string, limit, skip *int64) (model.Pr
 	if err := cursor.All(mctx, &pg.Data); err != nil {
 		return model.ProductPage{}, err
 	}
-	if pg.Matches, err = s.persColl.CountDocuments(mctx, filter); err != nil {
+	if pg.Matches, err = s.prodColl.CountDocuments(mctx, filter); err != nil {
 		return model.ProductPage{}, err
 	}
 	return pg, nil
