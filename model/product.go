@@ -11,7 +11,7 @@ type Product struct {
 	Price       string      `json:"price"`
 	Description string      `json:"description"`
 	Date        time.Time   `json:"date"`
-	Image       image.Alpha `json:"image"`
+	Image       image.Image `json:"image"`
 }
 
 type ProductPage struct {
