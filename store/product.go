@@ -20,6 +20,7 @@ func (s *Store) AddProduct(prd model.Product) {
 
 func (s *Store) GetProduct(id string) (model.Product, error) {
 	var prd model.Product
+
 	err := s.prodColl.FindOne(
 		context.Background(),
 		bson.M{"id": id},
@@ -31,13 +32,19 @@ func (s *Store) GetProduct(id string) (model.Product, error) {
 	return prd, nil
 }
 
-func (s *Store) GetProducts(nm, searchText string, limit, skip *int64) (model.ProductPage, error) {
+func (s *Store) GetProducts(nm, img, searchText string, limit, skip *int64) (model.ProductPage, error) {
 
 	filter := bson.M{}
 
 	if nm != "" {
 		filter = bson.M{"$and": bson.A{filter,
 			bson.M{"name": nm},
+		}}
+	}
+
+	if img != "" {
+		filter = bson.M{"$and": bson.A{filter,
+			bson.M{"image": img},
 		}}
 	}
 
