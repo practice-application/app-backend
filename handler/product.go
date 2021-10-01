@@ -33,9 +33,6 @@ func (prd *Product) Create(w http.ResponseWriter, r *http.Request) {
 	prod.ID = uuid.New().String()
 	prod.Date = time.Now()
 
-	prod.Image.FileID = uuid.New().String()
-	prod.Image.DateTime = time.Now()
-
 	prd.Store.AddProduct(prod)
 	w.Write([]byte("done"))
 }

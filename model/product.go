@@ -19,14 +19,10 @@ type ProductPage struct {
 }
 
 type Image struct {
-	ID          string    `json:"id"`
-	Author      string    `json:"author"`
-	Caption     string    `json:"caption"`
-	ContentType string    `json:"contentType"`
-	DateTime    time.Time `json:"dateTime"`
-	FileID      string    `json:"fileID"`
-	FileSize    int64     `json:"fileSize"`
-	Height      int       `json:"height"`
-	Name        string    `json:"name"`
-	Width       int       `json:"width"`
+	DataUrl          string    `json:"data_url"`
+	Type             string    `json:"type"`
+	LastModified     int64     `json:"lastModified"`
+	LastModifiedDate time.Time `json:"lastModifiedDate"`
+	Size             int64     `json:"fileSize"`
+	Name             string    `json:"name"`
 }
