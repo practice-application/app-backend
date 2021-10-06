@@ -10,7 +10,7 @@ type Product struct {
 	Price       string    `json:"price"`
 	Description string    `json:"description"`
 	Date        time.Time `json:"date"`
-	Image       Image     `json:"image"`
+	Image       []Image   `json:"image"`
 }
 
 type ProductPage struct {
@@ -19,10 +19,7 @@ type ProductPage struct {
 }
 
 type Image struct {
-	DataUrl          string    `json:"data_url"`
-	Type             string    `json:"type"`
-	LastModified     int64     `json:"lastModified"`
-	LastModifiedDate time.Time `json:"lastModifiedDate"`
-	Size             int64     `json:"fileSize"`
-	Name             string    `json:"name"`
+	ID      string `json:"id"`
+	DataUrl string `json:"data_url"`
+	Name    string `json:"name"`
 }
