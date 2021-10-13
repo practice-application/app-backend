@@ -11,7 +11,7 @@ type Product struct {
 	Description string    `json:"description"`
 	Date        time.Time `json:"date"`
 	ImageID     string    `json:"imageID"`
-	User        string    `json:user`
+	User        string    `json:"user"`
 }
 
 type ProductPage struct {
