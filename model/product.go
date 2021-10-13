@@ -10,6 +10,7 @@ type Product struct {
 	Price       string    `json:"price"`
 	Description string    `json:"description"`
 	Date        time.Time `json:"date"`
+	ImageID     string    `json:"imageId"`
 }
 
 type ProductPage struct {
