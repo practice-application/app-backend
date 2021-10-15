@@ -12,6 +12,8 @@ type Product struct {
 	Date        time.Time `json:"date"`
 	ImageID     string    `json:"imageID"`
 	User        string    `json:"user"`
+	Tags        []string  `json:"tags"`
+	Category    string    `json:"category"`
 }
 
 type ProductPage struct {
