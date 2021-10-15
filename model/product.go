@@ -12,7 +12,7 @@ type Product struct {
 	Date        time.Time `json:"date"`
 	ImageID     string    `json:"imageID"`
 	User        string    `json:"user"`
-	Tags        [5]string `json:"tags"`
+	Tags        []string  `json:"tags"`
 	Category    string    `json:"category"`
 }
 
