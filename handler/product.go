@@ -93,7 +93,6 @@ func (prd *Product) Update(w http.ResponseWriter, r *http.Request) {
 }
 
 func (prd *Product) Delete(w http.ResponseWriter, r *http.Request) {
-
 	id := chi.URLParam(r, "id")
 
 	if err := prd.Store.DeleteProduct(id); err != nil {
