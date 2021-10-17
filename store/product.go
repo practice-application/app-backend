@@ -31,13 +31,19 @@ func (s *Store) GetProduct(id string) (model.Product, error) {
 	return prd, nil
 }
 
-func (s *Store) GetProducts(nm, searchText string, limit, skip *int64) (model.ProductPage, error) {
+func (s *Store) GetProducts(nm, ctg, searchText string, limit, skip *int64) (model.ProductPage, error) {
 
 	filter := bson.M{}
 
 	if nm != "" {
 		filter = bson.M{"$and": bson.A{filter,
 			bson.M{"name": nm},
+		}}
+	}
+
+	if ctg != "" {
+		filter = bson.M{"$and": bson.A{filter,
+			bson.M{"category": ctg},
 		}}
 	}
 
