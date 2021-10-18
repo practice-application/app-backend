@@ -12,11 +12,15 @@ type Product struct {
 	Date        time.Time `json:"date"`
 	ImageID     string    `json:"imageID"`
 	User        string    `json:"user"`
-	Tags        [5]string `json:"tags"`
+	Tags        []Tags    `json:"tags"`
 	Category    string    `json:"category"`
 }
 
 type ProductPage struct {
 	Data    []Product `json:"data"`
 	Matches int64     `json:"matches"`
+}
+
+type Tags struct {
+	Item string `json:"item"`
 }
