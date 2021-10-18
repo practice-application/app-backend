@@ -31,7 +31,7 @@ func (s *Store) GetProduct(id string) (model.Product, error) {
 	return prd, nil
 }
 
-func (s *Store) GetProducts(nm, ctg, searchText string, limit, skip *int64) (model.ProductPage, error) {
+func (s *Store) GetProducts(nm, ctg, tag, searchText string, limit, skip *int64) (model.ProductPage, error) {
 
 	filter := bson.M{}
 
@@ -44,6 +44,12 @@ func (s *Store) GetProducts(nm, ctg, searchText string, limit, skip *int64) (mod
 	if ctg != "" {
 		filter = bson.M{"$and": bson.A{filter,
 			bson.M{"category": ctg},
+		}}
+	}
+
+	if tag != "" {
+		filter = bson.M{"$and": bson.A{filter,
+			bson.M{"tags": tag},
 		}}
 	}
 

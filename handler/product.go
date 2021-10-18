@@ -41,13 +41,14 @@ func (prd *Product) Query(w http.ResponseWriter, r *http.Request) {
 
 	nm := r.URL.Query().Get("name")
 	ctg := r.URL.Query().Get("category")
+	tag := r.URL.Query().Get("tags")
 	st := r.URL.Query().Get("st")
 	lmtStr := r.URL.Query().Get("lmt")
 	skipStr := r.URL.Query().Get("off")
 	lmt, _ := strconv.ParseInt(lmtStr, 10, 64)
 	skip, _ := strconv.ParseInt(skipStr, 10, 64)
 
-	prods, err := prd.Store.GetProducts(nm, ctg, st, &lmt, &skip)
+	prods, err := prd.Store.GetProducts(nm, ctg, tag, st, &lmt, &skip)
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("error %v", err)))
 	}
