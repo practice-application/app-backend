@@ -5,15 +5,15 @@ import (
 )
 
 type Product struct {
-	ID          string        `json:"id"`
-	Name        string        `json:"name"`
-	Price       string        `json:"price"`
-	Description string        `json:"description"`
-	Date        time.Time     `json:"date"`
-	ImageID     string        `json:"imageID"`
-	User        string        `json:"user"`
-	Tags        [0 & 5]string `json:"tags"`
-	Category    string        `json:"category"`
+	ID          string    `json:"id"`
+	Name        string    `json:"name"`
+	Price       string    `json:"price"`
+	Description string    `json:"description"`
+	Date        time.Time `json:"date"`
+	ImageID     string    `json:"imageID"`
+	User        string    `json:"user"`
+	Tags        [5]string `json:"tags"`
+	Category    string    `json:"category"`
 }
 
 type ProductPage struct {
