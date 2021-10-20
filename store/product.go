@@ -71,7 +71,7 @@ func (s *Store) GetProducts(nm, ctg, tag, searchText string, limit, skip *int64)
 		return model.ProductPage{}, err
 	}
 
-	// unpack results
+	//unpack results
 	var pg model.ProductPage
 	if err := cursor.All(mctx, &pg.Data); err != nil {
 		return model.ProductPage{}, err
