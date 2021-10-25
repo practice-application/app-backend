@@ -14,7 +14,7 @@ type Product struct {
 	User        string    `json:"user"`
 	UserPic     string    `json:"userPic"`
 	Tags        [5]string `json:"tags"`
-	Size        []string  `json:"size"`
+	Size        string    `json:"size"`
 	Category    string    `json:"category"`
 }
 
