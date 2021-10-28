@@ -56,6 +56,7 @@ func (s *Store) GetProducts(nm, ctg, tag, searchText string, limit, skip *int64)
 	if searchText != "" {
 		filter = bson.M{"$and": bson.A{filter,
 			bson.M{"$text": bson.M{"$search": searchText}},
+			
 		}}
 	}
 
