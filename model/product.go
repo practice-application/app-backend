@@ -14,8 +14,9 @@ type Product struct {
 	User        string    `json:"user"`
 	UserPic     string    `json:"userPic"`
 	Tags        [5]string `json:"tags"`
-	Size        string    `json:"size"`
 	Category    string    `json:"category"`
+	Size        string    `json:"size"`
+	Priority    bool      `json:"priority"`
 }
 
 type ProductPage struct {
