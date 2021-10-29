@@ -88,7 +88,7 @@ func (prd *Product) Update(w http.ResponseWriter, r *http.Request) {
 	var prod model.Product
 	json.Unmarshal(reqByt, &prod)
 
-	prod.Edits = int64(+1)
+	prod.Edits = int64(2)
 	id := chi.URLParam(r, "id")
 
 	prd.Store.UpdateProduct(id, prod)
