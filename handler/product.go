@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"math"
 	"net/http"
 	"strconv"
 	"time"
@@ -31,7 +32,7 @@ func (prd *Product) Create(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(reqByt, &prod)
 
 	prod.ID = uuid.New().String()
-	prod.Edits = int64(+1)
+	prod.Edits = math.Inf(1)
 	prod.Date = time.Now()
 
 	prd.Store.AddProduct(prod)
@@ -88,7 +89,7 @@ func (prd *Product) Update(w http.ResponseWriter, r *http.Request) {
 	var prod model.Product
 	json.Unmarshal(reqByt, &prod)
 
-	prod.Edits = +int64(1)
+	prod.Edits = math.Inf(1)
 	id := chi.URLParam(r, "id")
 
 	prd.Store.UpdateProduct(id, prod)

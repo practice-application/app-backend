@@ -17,7 +17,7 @@ type Product struct {
 	Category    string    `json:"category"`
 	Size        string    `json:"size"`
 	Priority    bool      `json:"priority"`
-	Edits       int64     `json:"edits"`
+	Edits       float64   `json:"edits"`
 }
 
 type ProductPage struct {
