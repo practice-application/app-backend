@@ -31,6 +31,7 @@ func (prd *Product) Create(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(reqByt, &prod)
 
 	prod.ID = uuid.New().String()
+	prod.Edits = int64(+1)
 	prod.Date = time.Now()
 
 	prd.Store.AddProduct(prod)
