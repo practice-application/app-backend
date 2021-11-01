@@ -6,6 +6,9 @@ import (
 
 type Person struct {
 	ID           string    `json:"id"`
+	Auth0ID      string    `json:"auth0id"`
+	UserName     string    `json:"userName"`
+	Avatar       string    `json:"avatar"`
 	FirstName    string    `json:"firstName"`
 	LastName     string    `json:"lastName"`
 	BirthDate    string    `json:"birthDate"`
