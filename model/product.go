@@ -13,6 +13,7 @@ type Product struct {
 	ImageID     string    `json:"imageID"`
 	User        string    `json:"user"`
 	UserPic     string    `json:"userPic"`
+	Auth0id     string    `json:"auth0id"`
 	Tags        [5]string `json:"tags"`
 	Category    string    `json:"category"`
 	Size        string    `json:"size"`
