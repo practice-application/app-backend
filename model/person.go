@@ -22,6 +22,7 @@ type Person struct {
 	City         string    `json:"city"`
 	Region       string    `json:"region"`
 	Country      string    `json:"country"`
+	Verified     bool      `json:"verified"`
 }
 
 type Page struct {
